@@ -25,7 +25,8 @@ class Order(models.Model):
     customer_name = models.CharField(max_length=100)
     total_amount = models.IntegerField()
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
-    orderItems = models.ManyToManyField('OrderItem')
+    order_items = models.ManyToManyField('OrderItem', related_name='orders')
+    transaction_record = models.ForeignKey('Transaction', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -36,12 +37,14 @@ class OrderItem(models.Model):
     item_price = models.IntegerField()
     item_quantity = models.IntegerField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    transaction = models.ForeignKey('Transaction')
 
     def __str__(self):
         return self.name
     
 class Transaction(models.Model):
     transaction_amount = models.IntegerField()
-    transaction_gateway = models.CharField()
-    order = models.OneToOneField(Order, null=True)
+    transaction_gateway = models.CharField(max_length=100)
+    related_order = models.OneToOneField('Order', null=True, on_delete=models.CASCADE, related_name='transaction')
+
+    def __str__(self):
+        return f"Transaction {self.pk}"
