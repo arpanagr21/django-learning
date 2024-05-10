@@ -44,4 +44,4 @@ class OrderItem(models.Model):
 class Transaction(models.Model):
     transaction_amount = models.IntegerField()
     transaction_gateway = models.CharField()
-    order = models.OneToOneField(OrderItem, null=True)
+    order = models.OneToOneField(Order, null=True)
