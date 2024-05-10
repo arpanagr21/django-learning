@@ -26,10 +26,10 @@ class Order(models.Model):
     total_amount = models.IntegerField()
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     order_items = models.ManyToManyField('OrderItem', related_name='orders')
-    transaction_record = models.ForeignKey('Transaction', on_delete=models.CASCADE)
+    transaction_record = models.ForeignKey('Transaction', on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return self.name
+        return self.customer_name
 
 
 class OrderItem(models.Model):
@@ -39,7 +39,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.item_name
     
 class Transaction(models.Model):
     transaction_amount = models.IntegerField()
